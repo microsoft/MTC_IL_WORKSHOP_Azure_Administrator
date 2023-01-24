@@ -14,12 +14,15 @@ Workshop for Azure Administrator
         - [Container Groups in Azure Container Instances](#container-groups-in-azure-container-instances)
         - [Azure Kubernetes - AKS](#azure-kubernetes---aks)
         - [Azure Container Apps](#azure-container-apps)
-        - [Azure Functions](#azure-functions)
+      - [Azure Functions](#azure-functions)
     - [Manage and Configure Virtual Network](#manage-and-configure-virtual-network)
       - [Azure Virtual Network](#azure-virtual-network)
       - [Network Security Groups](#network-security-groups)
       - [Azure Load Balancer](#azure-load-balancer)
       - [Azure Application Gateway](#azure-application-gateway)
+      - [Virtual Network Peering](#virtual-network-peering)
+      - [VPN - Virtual Private Network](#vpn---virtual-private-network)
+        - [Point-to-Site VPN Connection](#point-to-site-vpn-connection)
     - [Manage Azure Storage](#manage-azure-storage)
     - [Monitor and Backup](#monitor-and-backup)
     - [Manage Azure Identities and Governance](#manage-azure-identities-and-governance)
@@ -229,7 +232,7 @@ Microservices with container apps:
 <img src="./assets/microservices-with-container-apps-runtime-diagram.png" alt="container_apps" width="1000"/>
 
 
-##### Azure Functions
+#### Azure Functions
 Azure Functions is a serverless solution that allows you to write less code, maintain less infrastructure, and save on costs. Instead of worrying about deploying and maintaining servers, the cloud infrastructure provides all the up-to-date resources needed to keep your applications running.
 
 You focus on the code that matters most to you, in the most productive language for you, and Azure Functions handles the rest.
@@ -239,7 +242,7 @@ You focus on the code that matters most to you, in the most productive language 
   - Process file uploads 
   - Build a serverless workflow
   - Respond to database changes
-  - Rum schedule tasks
+  - Run schedule tasks
   - Create reliable message queue systems
   - Analyze IoT data streams
   - Process data in real time 
@@ -324,7 +327,7 @@ This type of routing is known as application layer (OSI layer 7) load balancing.
 
 - Features 
   - Secure Sockets Layer (SSL/TLS) termination
-  - Autoscaling
+  - Autoscaling - allows the Application Gateway to scale up or down based on traffic load patterns 
   - Static VIP
   - Web Application Firewall
   - Ingress Controller for AKS
@@ -350,6 +353,53 @@ This type of routing is known as application layer (OSI layer 7) load balancing.
 4. If a web application firewall (WAF) is in use, the application gateway checks the request headers and the body, if present, against WAF rules. This action determines if the request is valid request or a security threat. If the request is valid, it's routed to the backend. If the request isn't valid and WAF is in Prevention mode, it's blocked as a security threat. If it's in Detection mode, the request is evaluated and logged, but still forwarded to the backend server.
 
 <img src="./assets/app_gateway_howitworks.png" alt="app_gateway" width="800"/>
+
+#### Virtual Network Peering 
+Virtual network peering enables you to seamlessly connect two or more Virtual Networks in Azure. The virtual networks appear as one for connectivity purposes. The traffic between virtual machines in peered virtual networks uses the Microsoft backbone infrastructure. Like traffic between virtual machines in the same network, traffic is routed through Microsoft's private network only.
+
+Azure supports the following types of peering:
+- Virtual network peering: Connecting virtual networks within the same Azure region.
+- Global virtual network peering: Connecting virtual networks across Azure regions.
+
+The benefits of using virtual network peering, whether local or global, include:
+- A low-latency, high-bandwidth connection between resources in different virtual networks.
+- The ability for resources in one virtual network to communicate with resources in a different virtual network.
+- The ability to transfer data between virtual networks across Azure subscriptions, Azure Active Directory tenants, deployment models, and Azure regions.
+- The ability to peer virtual networks created through the Azure Resource Manager.
+- The ability to peer a virtual network created through Resource Manager to one created through the classic deployment model. To learn more about Azure deployment models, see Understand Azure deployment models.
+- No downtime to resources in either virtual network when creating the peering, or after the peering is created.
+
+Gateways and on-premises connectivity: 
+
+Each virtual network, including a peered virtual network, can have its own gateway. A virtual network can use its gateway to connect to an on-premises network. You can also configure virtual network-to-virtual network connections by using gateways, even for peered virtual networks.
+
+When you configure both options for virtual network interconnectivity, the traffic between the virtual networks flows through the peering configuration. The traffic uses the Azure backbone.
+
+You can also configure the gateway in the peered virtual network as a transit point to an on-premises network. In this case, the virtual network that is using a remote gateway can't have its own gateway. A virtual network could have only one gateway, the gateway should be either local or remote gateway in the peered virtual network as shown in the following diagram:
+
+<img src="./assets/vnet_peering_on_prem.png" alt="vnet_peering" width="800"/>
+
+- Virtual Network Peering is used to connect two Azure virtual networks together via the backbone network.
+- Azure supports connecting two virtual networks located in the same region or networks located across regions.
+- Once you enable virtual network peering between two virtual networks, the virtual machines can then communicate via their private IP addresses across the peering connection.
+- You can also peer virtual networks that are located across different subscriptions.
+- The virtual networks can't have overlapping CIDR blocks.
+
+
+#### VPN - Virtual Private Network 
+Azure Virtual Network (VNet) is the fundamental building block for your private network in Azure. VNet enables many types of Azure resources, such as Azure Virtual Machines (VM), to securely communicate with each other, the internet, and on-premises networks. VNet is similar to a traditional network that you'd operate in your own data center, but brings with it additional benefits of Azure's infrastructure such as scale, availability, and isolation.
+
+- Your Internet Services provider will know all of the requests that are made from your machine onto the internet 
+- Sometimes privacy can always be a concern 
+- VPN is used to create a private network 
+- Here your public IP address is not placed in the requests that are made onto the Internet 
+- Also VPN connections are encrypted so that the data transfer is more secure
+
+<img src="./assets/azure_vpn.png" alt="azure_vpn" width="700"/>
+
+##### Point-to-Site VPN Connection
+A Point-to-Site (P2S) VPN gateway connection lets you create a secure connection to your virtual network from an individual client computer. A P2S connection is established by starting it from the client computer. This solution is useful for telecommuters who want to connect to Azure VNets from a remote location, such as from home or a conference. P2S VPN is also a useful solution to use instead of S2S VPN when you have only a few clients that need to connect to a VNet. This article applies to the Resource Manager deployment model.
+
 
 ### Manage Azure Storage
 
