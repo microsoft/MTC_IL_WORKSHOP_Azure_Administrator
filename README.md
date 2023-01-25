@@ -22,7 +22,11 @@ Workshop for Azure Administrator
       - [Azure Application Gateway](#azure-application-gateway)
       - [Virtual Network Peering](#virtual-network-peering)
       - [VPN - Virtual Private Network](#vpn---virtual-private-network)
-        - [Point-to-Site VPN Connection](#point-to-site-vpn-connection)
+      - [Point-to-Site VPN Connection](#point-to-site-vpn-connection)
+      - [Site to Site VPN Connection](#site-to-site-vpn-connection)
+      - [Azure Virtual WAN](#azure-virtual-wan)
+      - [Azure Express Route](#azure-express-route)
+      - [Network Watcher Service](#network-watcher-service)
     - [Manage Azure Storage](#manage-azure-storage)
     - [Monitor and Backup](#monitor-and-backup)
     - [Manage Azure Identities and Governance](#manage-azure-identities-and-governance)
@@ -397,15 +401,81 @@ Azure Virtual Network (VNet) is the fundamental building block for your private 
 
 <img src="./assets/azure_vpn.png" alt="azure_vpn" width="700"/>
 
-##### Point-to-Site VPN Connection
+#### Point-to-Site VPN Connection
 A Point-to-Site (P2S) VPN gateway connection lets you create a secure connection to your virtual network from an individual client computer. A P2S connection is established by starting it from the client computer. This solution is useful for telecommuters who want to connect to Azure VNets from a remote location, such as from home or a conference. P2S VPN is also a useful solution to use instead of S2S VPN when you have only a few clients that need to connect to a VNet. This article applies to the Resource Manager deployment model.
 
 <img src="./assets/point_to_site_vpn.png" alt="point_to_site_vpn" width="700"/>
 
 - The gateway subnet is used to host gateway VM's and services
 - The VM's in the gateway subnet are configured with the required VPN gateway settings 
-  
+- No other VM's must be deployed to the gateway subnet
+- The gateway subnet can be configured as /29, but Microsoft recommends /27, /26 address ranges 
+- We can have only 1 gatewaySubnet for each vnet 
+- We can establish connection via certificates
+- Generate certificates for point 2 site using powershell - [click here](https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-certificates-point-to-site)
 
+
+#### Site to Site VPN Connection
+A Site-to-Site VPN gateway connection is used to connect your on-premises network to an Azure virtual network over an IPsec/IKE (IKEv1 or IKEv2) VPN tunnel. This type of connection requires a VPN device located on-premises that has an externally facing public IP address assigned to it.
+
+<img src="./assets/site_to_site_vpn.png" alt="site_to_site" width="700"/>
+
+- Create a virtual network
+- Create a VPN gateway
+- Create a local network gateway
+- Create a VPN Connection
+- Verify the connection
+- Connect to a virtual machine 
+
+<img src="./assets/site_to_site_vpn_hub_spoke.png" alt="site_to_site_vpn" width="1000"/>
+
+- Tutorial: Create a site-to-site VPN connection in the Azure portal - [click here](https://learn.microsoft.com/en-us/azure/vpn-gateway/tutorial-site-to-site-portal)
+
+- On the on-premise side, you need to have a VPN device that can route traffic via the Internet onto the VPN gateway in Azure. The VPN device can be a hardware device like a Cisco router or a software device ( e.g Windows Server 2016 running Routing and Remote services). The VPN device needs to have a publically routable IP address.
+- The subnets in your on-premise network must not overlap with the subnets in your Azure virtual network
+- The Site-to-Site VPN connection uses an IPSec tunnel to encrypt the traffic
+- The VPN gateway resource you create in Azure is used to route encrypted traffic between your on-premise data center and your Azure virtual network
+- There are different SKU's for the Azure VPN gateway service. Each SKU has a different pricing and attributes associated with it - Reference - [click here](https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpn-gateway-settings)
+
+
+#### Azure Virtual WAN 
+Azure Virtual WAN is a networking service that brings many networking, security, and routing functionalities together to provide a single operational interface. Some of the main features include:
+- Branch connectivity (via connectivity automation from Virtual WAN Partner devices such as SD-WAN or VPN CPE).
+- Site-to-site VPN connectivity.
+- Remote user VPN connectivity (point-to-site).
+- Private connectivity (ExpressRoute).
+- Intra-cloud connectivity (transitive connectivity for virtual networks).
+- VPN ExpressRoute inter-connectivity.
+- Routing, Azure Firewall, and encryption for private connectivity.
+
+<img src="./assets/virtual_wan.png" alt="virtual_wan" width="700"/>
+
+
+#### Azure Express Route 
+ExpressRoute lets you extend your on-premises networks into the Microsoft cloud over a private connection with the help of a connectivity provider. With ExpressRoute, you can establish connections to Microsoft cloud services, such as Microsoft Azure and Microsoft 365.
+
+Connectivity can be from an any-to-any (IP VPN) network, a point-to-point Ethernet network, or a virtual cross-connection through a connectivity provider at a colocation facility. ExpressRoute connections don't go over the public Internet. This allows ExpressRoute connections to offer more reliability, faster speeds, consistent latencies, and higher security than typical connections over the Internet. For information on how to connect your network to Microsoft using ExpressRoute, see ExpressRoute connectivity models.
+
+<img src="./assets/express_route.png" alt="express_route" width="700"/>
+
+Key Benefits:  
+- Layer 3 connectivity between your on-premises network and the Microsoft Cloud through a connectivity provider. Connectivity can be from an any-to-any (IPVPN) network, a point-to-point Ethernet connection, or through a virtual cross-connection via an Ethernet exchange.
+- Connectivity to Microsoft cloud services across all regions in the geopolitical region.
+- Global connectivity to Microsoft services across all regions with the ExpressRoute premium add-on.
+- Dynamic routing between your network and Microsoft via BGP.
+- Built-in redundancy in every peering location for higher reliability.
+- Connection uptime SLA.
+- QoS support for Skype for Business.
+
+
+#### Network Watcher Service 
+- **Connection Monitor** - Check the network connectivity between machines. These can be in Azure or on your on-premises environments
+- **Next Hop** - Here you can see the next route for a packet of data. This helps you understand whether the packet is being routed to the correct destination
+- **IP Flow Verify** - This can be used to check if a packet is allowed or denied to or from a virtual machine. If a packet is being denied by a securiry group, you can see which rule is denying the packet 
+- **Connection troubleshoot** - Check the connection from a virtual machine to a virtual machine, fully qualified domain name, URI or IPv4 address
+- **NSG Diagnostic** - Provides detailed information that helps to understand and debug the security configuration of the network 
+- **Traffic Analytics** - This helps to log information about the IP traffic that is flowing through an NSG
+- **NSG Flow Logs** - Helps to provide visibility into user and application activity in cloud networks
 
 ### Manage Azure Storage
 
