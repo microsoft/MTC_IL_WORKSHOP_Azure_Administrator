@@ -41,6 +41,7 @@ Workshop for Azure Administrator
     - [Monitor and Backup](#monitor-and-backup)
     - [Manage Azure Identities and Governance](#manage-azure-identities-and-governance)
       - [Azure Subscriptions and Management levels of hierarchy](#azure-subscriptions-and-management-levels-of-hierarchy)
+      - [Azure Active Directory](#azure-active-directory)
 
 
 
@@ -626,7 +627,29 @@ Microsoft provides a hierarchy of organizations, subscriptions, licenses, and us
 <img src="./assets/organize_subscriptions.png" alt="organize_subscriptions" width="400"/>
 
 - Management levels and hierarchy
-  - Management Groups - help you manage access, policy, and compliance for multiple subscriptions. All subscriptions in a management group automatically inherit the conditions that are applied to the management group
-  - Subscriptions - logically associate user accounts with the resources that they create. Each subscription has limits or quotas on the amount of resources that it can create and use. Organizations can use subscriptions to manage costs and the resources that are created by users, teams, and projects
-  - Resource groups - are logical containers where you can deploy and manage Azure resources like web apps, databases, and storage accounts
-  - Resources are instances of services that you can create, such as virtual machines, storage, and SQL databases 
+  - **Management Groups**  - help you manage access, policy, and compliance for multiple subscriptions. All subscriptions in a management group automatically inherit the conditions that are applied to the management group
+  - **Subscriptions** - logically associate user accounts with the resources that they create. Each subscription has limits or quotas on the amount of resources that it can create and use. Organizations can use subscriptions to manage costs and the resources that are created by users, teams, and projects
+  - **Resource groups** - are logical containers where you can deploy and manage Azure resources like web apps, databases, and storage accounts
+  - **Resources** - are instances of services that you can create, such as virtual machines, storage, and SQL databases 
+
+- Payment models 
+  - Pay as you go - Pay for what you use - Highest
+  - Enterprise agreement - 3 Years - Substantial discounts available but only for high volumes
+  - Cloud Service Provider (CSP) - You can purchase e.g. licenses for Office 365, Dynamics 365, Enterprise Mobility Suite, Power BI - Discounts or value-added services available
+
+
+#### Azure Active Directory 
+Azure Active Directory (Azure AD) is a cloud-based identity and access management service. Azure AD enables your employees access external resources, such as Microsoft 365, the Azure portal, and thousands of other SaaS applications. Azure Active Directory also helps them access internal resources like apps on your corporate intranet, and any cloud apps developed for your own organization
+
+<img src="./assets/active_directory.png" alt="active_directory" width="600"/>
+
+Licenses:
+- Premium P1 - Included with Microsoft 365 - 6$ user/month
+- Premium P2 - Included with Microsoft 365 - 9$ user/month
+- Free - Included with Microsoft 365
+- Office 365 apps - Included with Microsoft 365
+
+Trust between Azure Subscription and Azure AD
+- Azure Tenant - This is a dedicated and trusted instance of Azure AD
+- Azure AD Directory - Each Azure tenant has a dedicated and trusted Azure AD directory, This includes the tenant's users, groups and applications and us used for performing identity and access management onto resources
+
