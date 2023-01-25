@@ -27,9 +27,20 @@ Workshop for Azure Administrator
       - [Azure Virtual WAN](#azure-virtual-wan)
       - [Azure Express Route](#azure-express-route)
       - [Network Watcher Service](#network-watcher-service)
+      - [User Defined Routes](#user-defined-routes)
+      - [Azure Firewall](#azure-firewall)
+        - [Azure Firewall Standard](#azure-firewall-standard)
+        - [Azure Firewall Premium](#azure-firewall-premium)
+        - [Azure Firewall Basic](#azure-firewall-basic)
+      - [DNS - Domain Name System](#dns---domain-name-system)
+        - [Local DNS](#local-dns)
+        - [Azure Private DNS](#azure-private-dns)
+        - [Azure Public DNS](#azure-public-dns)
     - [Manage Azure Storage](#manage-azure-storage)
+      - [Azure Storage Accounts](#azure-storage-accounts)
     - [Monitor and Backup](#monitor-and-backup)
     - [Manage Azure Identities and Governance](#manage-azure-identities-and-governance)
+      - [Azure Subscriptions and Management levels of hierarchy](#azure-subscriptions-and-management-levels-of-hierarchy)
 
 
 
@@ -477,8 +488,145 @@ Key Benefits:
 - **Traffic Analytics** - This helps to log information about the IP traffic that is flowing through an NSG
 - **NSG Flow Logs** - Helps to provide visibility into user and application activity in cloud networks
 
+#### User Defined Routes 
+Azure routes traffic between all subnets within a virtual network, by default. You can create your own routes to override Azure's default routing. Custom routes are helpful when, for example, you want to route traffic between subnets through a network virtual appliance (NVA).  
+
+<img src="./assets/route_table.png" alt="route_table" width="700"/>
+
+#### Azure Firewall
+Azure Firewall is a cloud-native and intelligent network firewall security service that provides the best of breed threat protection for your cloud workloads running in Azure. It's a fully stateful, firewall as a service with built-in high availability and unrestricted cloud scalability. It provides both east-west and north-south traffic inspection.
+
+Azure Firewall is offered in three SKUs: Standard, Premium, and Basic.
+
+- Has built-in high availability
+- Can deploy the Azure Firewall Instance across two or more Availability Zones - 99.99% SLA
+- You can filter traffic based on fully-qualified domain names
+- You can also create network filtering rules - Based on source and destination IP address, port and protocol 
+- It is a stateful in nature, so it understands what packets of data to allow 
+- It has built-in Intelligence - Here you can get alerts or deny traffic from/to malicious IP addresses and domains
+
+##### Azure Firewall Standard 
+
+<img src="./assets/firewall_standard.png" alt="firwall_standard" width="700"/>
+
+##### Azure Firewall Premium 
+
+<img src="./assets/firewall_premium.png" alt="firewall_premium" width="700"/>
+
+##### Azure Firewall Basic 
+
+<img src="./assets/firewall_basic.png" alt="firewall_basic" width="700"/>
+
+#### DNS - Domain Name System
+##### Local DNS 
+1. Install Active Directory Domain Services
+2. Promote the server to a domain controller
+3. Specify a root domain name - mtcisrael.com
+4. Create a new server as part of a new subnet
+5. Install Internet Information Services on the server
+6. Use Azure provided DNS names
+7. Now its time to use our DNS Server 
+   1. For the network, we need to mention our DNS server
+   2. Restart our servers
+   3. Add a record to the zone 
+
+##### Azure Private DNS
+The Domain Name System, or DNS, is responsible for translating (or resolving) a service name to an IP address. Azure DNS is a hosting service for domains and provides naming resolution using the Microsoft Azure infrastructure. Azure DNS not only supports internet-facing DNS domains, but it also supports private DNS zones.
+
+Azure Private DNS provides a reliable and secure DNS service for your virtual network. Azure Private DNS manages and resolves domain names in the virtual network without the need to configure a custom DNS solution. By using private DNS zones, you can use your own custom domain name instead of the Azure-provided names during deployment. Using a custom domain name helps you tailor your virtual network architecture to best suit your organization's needs. It provides a naming resolution for virtual machines (VMs) within a virtual network and connected virtual networks. Additionally, you can configure zones names with a split-horizon view, which allows a private and a public DNS zone to share the name.
+
+To resolve the records of a private DNS zone from your virtual network, you must link the virtual network with the zone. Linked virtual networks have full access and can resolve all DNS records published in the private zone. You can also enable autoregistration on a virtual network link. When you enable autoregistration on a virtual network link, the DNS records for the virtual machines in that virtual network are registered in the private zone. When autoregistration gets enabled, Azure DNS will update the zone record whenever a virtual machine gets created, changes its' IP address, or gets deleted.
+
+<img src="./assets/private_dns.png" alt="private_dns" width="500"/>
+
+##### Azure Public DNS
+A DNS zone is used to host the DNS records for a particular domain. To start hosting your domain in Azure DNS, you need to create a DNS zone for that domain name. Each DNS record for your domain is then created inside this DNS zone.
+
+For example, the domain 'contoso.com' may contain several DNS records, such as 'mail.contoso.com' (for a mail server) and 'www.contoso.com' (for a web site).
+
+When creating a DNS zone in Azure DNS:
+- The name of the zone must be unique within the resource group, and the zone must not exist already. Otherwise, the operation fails.
+- The same zone name can be reused in a different resource group or a different Azure subscription.
+- Where multiple zones share the same name, each instance is assigned different name server addresses. Only one set of addresses can be configured with the domain name registrar.
+
 ### Manage Azure Storage
+
+#### Azure Storage Accounts
+An Azure storage account contains all of your Azure Storage data objects, including blobs, file shares, queues, tables, and disks. The storage account provides a unique namespace for your Azure Storage data that's accessible from anywhere in the world over HTTP or HTTPS. Data in your storage account is durable and highly available, secure, and massively scalable.
+
+<img src="./assets/storage_account.png" alt="storage_account" width="800"/>
+
+Types of storage accounts:  
+
+| Type of storage account | Supported storage services | Redundancy options | Usage  |
+| ----------------------- |--------------------------- | ------------------ | ------ |
+| Standard general-purpose v2 | Blob Storage ( including Data Lake Storage ), Queue Storage, Table Storage, and Azure Files | Locally redundant storage (LRS) / geo-redundant storage (GRS) / read-access geo-redundant storage (RA-GRS) Zone-redundant storage (ZRS) / geo-zone-redundant storage (GZRS) / read-access geo-zone-redundant storage (RA-GZRS) | Standard storage account type for blobs, file shares, queues, and tables. Recommended for most scenarios using Azure Storage. If you want support for network file system (NFS) in Azure Files, use the premium file shares account type. | 
+| Premium block blobs | Blob Storage (including Data Lake Storage ) | LRS ZRS | Premium storage account type for block blobs and append blobs. Recommended for scenarios with high transaction rates or that use smaller objects or require consistently low storage latency. Learn more about example workloads. | 
+| Premium file shares | Azure Files | LRS | Premium storage account type for page blobs only. |
+
+- Access Tiers 
+  - Hot Access Tier - This is used for data that is accessed frequently 
+  - Cool Access Tier - This is used for data that is accessed infrequently and stored for at least 30 days 
+  - Archive Access Tier - This is used for data that is rarely accessed and stored for at least 180 days 
+
+- Lifecycle policies 
+  - Lifecycle Management rules 
+  - Change the access tier 
+  - Delete an object 
+
+- Lifecycle Management 
+  - Transition - Here you can transition blobs from the cool to the hot access tier to save on storage costs
+  - Blobs - You can transition blobs, blob versions and blob snapshots
+  - Deletion - You can also define rules to delete blobs, blob versions and blob snapshots
+  - Rule filters - You can define filter for blobTypes - blockBlob, appendBlob
+  - Rule actions - You have actions such as tierToCool, tierToArchive and delete
+  - Support - Rules are supported for blob and append blobs in General-Purpose V2 accounts, Premium Blobk Blob and Blob Storage accounts
+  - Region - This feature is available in all regions
+
+- Object Replication
+  - This feature can be used to copy blobs between a source and destination storage account
+  - You can create rules to specify which objects get replicated from the source to the destination
+  - Storage Account support - General Purpose V2 and Premium Blob accounts
+  - Blob versioning should be enabled on both the source and destination storage account 
+  - Change feed is enabled on the source storage account 
+
+- Azure File Share
+  
+<img src="./assets/file_share.png" alt="file_share" width="400"/>
+
+- Azure File Sync 
+  - Use Azure File Sync to centralize your organization's file shares in Azure Files, while keeping the flexibility, performance, and compatibility of an on-premises file server. Azure File Sync transforms Windows Server into a quick cache of your Azure file share. You can use any protocol that's available on Windows Server to access your data locally, including SMB, NFS, and FTPS. You can have as many caches as you need across the world.
+
+<img src="./assets/file_sync.png" alt="file_sync" width="400"/>
+
+- Azure Import/Export Service
+  - Copying Data - This is used for copying large amounts of data to Azure Blob storage and Azure Files
+  - Transfer Data - You can also transfer data from Azure Blob storage to your on-premises environment
+  - Disk Drives - Here you make use of Disk Drives. You can use your own Disk drives or use the ones provided by Microsoft
+  - Jobs - You basically create a job via the Azure Portal. This will be used for transferring data to a storage account 
+  - Data Box  
+    - Data transfer - Helps to send terabytes of data in and out of Azure
+    - No Internet - You don't need to use your Internet connection to transfer the data
+    - Scenario - Ideal when you want to transfer data sizes that are larger than 40TB
+    - Device - You order the Data Box device via the Azure Portal 
+  - AzCopy Tool - AzCopy is a command-line utility that you can use to copy blobs or files to or from a storage account - [Click Here](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10) to get started
+
+
 
 ### Monitor and Backup 
 
 ### Manage Azure Identities and Governance
+
+#### Azure Subscriptions and Management levels of hierarchy 
+Microsoft provides a hierarchy of organizations, subscriptions, licenses, and user accounts for consistent use of identities and billing across its cloud offerings:
+- Microsoft 365 and Microsoft Office 365
+- Microsoft Azure
+- Microsoft Dynamics 365
+
+<img src="./assets/organize_subscriptions.png" alt="organize_subscriptions" width="400"/>
+
+- Management levels and hierarchy
+  - Management Groups - help you manage access, policy, and compliance for multiple subscriptions. All subscriptions in a management group automatically inherit the conditions that are applied to the management group
+  - Subscriptions - logically associate user accounts with the resources that they create. Each subscription has limits or quotas on the amount of resources that it can create and use. Organizations can use subscriptions to manage costs and the resources that are created by users, teams, and projects
+  - Resource groups - are logical containers where you can deploy and manage Azure resources like web apps, databases, and storage accounts
+  - Resources are instances of services that you can create, such as virtual machines, storage, and SQL databases 
