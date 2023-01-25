@@ -42,6 +42,18 @@ Workshop for Azure Administrator
     - [Manage Azure Identities and Governance](#manage-azure-identities-and-governance)
       - [Azure Subscriptions and Management levels of hierarchy](#azure-subscriptions-and-management-levels-of-hierarchy)
       - [Azure Active Directory](#azure-active-directory)
+        - [Role Base Access Control](#role-base-access-control)
+        - [Dynamic Groups](#dynamic-groups)
+        - [Azure AD Roles](#azure-ad-roles)
+        - [Self-service password reset](#self-service-password-reset)
+        - [Multi-Factor Authentication](#multi-factor-authentication)
+        - [Conditional Access Policies](#conditional-access-policies)
+        - [Administrative Units](#administrative-units)
+      - [Resource Tags](#resource-tags)
+      - [Resouce Locks](#resouce-locks)
+      - [Azure Policies](#azure-policies)
+      - [Costing in Azure](#costing-in-azure)
+      - [Azure Management Groups](#azure-management-groups)
 
 
 
@@ -653,3 +665,124 @@ Trust between Azure Subscription and Azure AD
 - Azure Tenant - This is a dedicated and trusted instance of Azure AD
 - Azure AD Directory - Each Azure tenant has a dedicated and trusted Azure AD directory, This includes the tenant's users, groups and applications and us used for performing identity and access management onto resources
 
+##### Role Base Access Control 
+- **Contributor** - Grants full access to manage all resources, but does not allow you to assign roles in Azure RBAC, manage assignments in Azure Blueprints, or share image galleries.	
+- **Owner** - Grants full access to manage all resources, including the ability to assign roles in Azure RBAC.	
+- **Reader** - View all resources, but does not allow you to make any changes.
+- **User Access Administrator** - Lets you manage user access to Azure resources.	
+- **Full List** - [click here](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles)
+- **Custom Roles** - We can create a custom role based on existing roles 
+
+
+##### Dynamic Groups 
+You can create attribute-based rules to enable dynamic membership for a group in Azure Active Directory (Azure AD), part of Microsoft Entra. Dynamic group membership adds and removes group members automatically using membership rules based on member attributes. This article details the properties and syntax to create dynamic membership rules for users or devices. You can set up a rule for dynamic membership on security groups or Microsoft 365 groups.
+
+When the attributes of a user or a device change, the system evaluates all dynamic group rules in a directory to see if the change would trigger any group adds or removes. If a user or device satisfies a rule on a group, they're added as a member of that group. If they no longer satisfy the rule, they're removed. You can't manually add or remove a member of a dynamic group.
+
+- You can create a dynamic group for devices or for users, but you can't create a rule that contains both users and devices.
+- You can't create a device group based on the user attributes of the device owner. Device membership rules can reference only device attributes.
+
+##### Azure AD Roles
+Azure AD role-based access control manages access to Azure AD resources. Create custom roles, assign roles that use administrative units to restrict scope of control, assign application access to groups or users, manage eligibility with Privileged Identity Management (PIM), or delegate permissions to distribute identity management tasks.
+
+There are about 60 Azure Active Directory (Azure AD) built-in roles, which are roles with a fixed set of role permissions. To supplement the built-in roles, Azure AD also supports custom roles. Use custom roles to select the role permissions that you want. For example, you could create one to manage particular Azure AD resources such as applications or service principals.
+
+<img src="./assets/ad_roles2.png" alt="ad_roles" width="400"/>
+
+- Ability to create users 
+- Ability to manage passwords
+- etc..
+
+<img src="./assets/ad_roles.png" alt="ad_roles" width="600"/>
+
+##### Self-service password reset 
+This feature helps users to reset their password without the need of contacting the IT help desk staff 
+
+- License - Password reset needs Azure AD Premium P1 or P2 license for users 
+- Password writeback - If there is a hybrid environment, the changed passwords can be written back to the on-premises Active Directory 
+- Authentication Methods - You can define authentication methods to reset the password
+- Number of methods - Define the number of authentication methods required to reset the password
+- Number of days - Number of days before users need to reconfirm their authentication information
+- Notification - Notify users when password is reset 
+
+##### Multi-Factor Authentication
+Use strong multifactor authentication (MFA) in Azure Active Directory (Azure AD) to help protect your organization against breaches due to lost or stolen credentials.
+- Use stronger security than passwords alone 
+- Protect your users from credential theft 
+- Secure your resource against unathorized access 
+- Ensure a seamless user experience 
+
+##### Conditional Access Policies 
+The modern security perimeter now extends beyond an organization's network to include user and device identity. Organizations can use identity-driven signals as part of their access control decisions.
+Conditional Access brings signals together, to make decisions, and enforce organizational policies. Azure AD Conditional Access is at the heart of the new identity-driven control plane.
+
+<img src="./assets/conditional_access.png" alt="conditional_access" width="800"/>
+     
+       
+Common signals that Conditional Access can take in to account when making a policy decision include the following signals:
+- User or group membership
+  - Policies can be targeted to specific users and groups giving administrators fine-grained control over access.
+- IP Location information
+  - Organizations can create trusted IP address ranges that can be used when making policy decisions.
+  - Administrators can specify entire countries/regions IP ranges to block or allow traffic from.
+- Device
+  - Users with devices of specific platforms or marked with a specific state can be used when enforcing Conditional Access policies.
+  - Use filters for devices to target policies to specific devices like privileged access workstations.
+- Application
+  - Users attempting to access specific applications can trigger different Conditional Access policies.
+- Real-time and calculated risk detection
+  - Signals integration with Azure AD Identity Protection allows Conditional Access policies to identify risky sign-in behavior. Policies can then force users to change their password, do multi-factor authentication to reduce their risk level, or block access until an administrator takes manual action.
+- Microsoft Defender for Cloud Apps
+  - Enables user application access and sessions to be monitored and controlled in real time, increasing visibility and control over access to and activities done within your cloud environment.
+
+##### Administrative Units
+Administrative units restrict permissions in a role to any portion of your organization that you define. You could, for example, use administrative units to delegate the Helpdesk Administrator role to regional support specialists, so they can manage users only in the region that they support.
+
+Users can be members of multiple administrative units. For example, you might add users to administrative units by geography and division; Megan Bowen might be in the "Seattle" and "Marketing" administrative units.
+
+<img src="./assets/admin-unit-overview.png" alt="admin-unit-overview" width="800"/>
+  
+
+Documentation - [click here](https://learn.microsoft.com/en-us/azure/active-directory/roles/administrative-units)
+
+#### Resource Tags 
+ags are metadata elements that you apply to your Azure resources. They're key-value pairs that help you identify resources based on settings that are relevant to your organization. If you want to track the deployment environment for your resources, add a key named Environment. To identify the resources deployed to production, give them a value of Production. Fully formed, the key-value pair becomes, Environment = Production.
+
+You can apply tags to your Azure resources, resource groups, and subscriptions.
+
+#### Resouce Locks 
+Locking resources can help ensure user's dont accidently delete or modify resource.
+There is 2 types of locks:
+- **CanNotDelete** - authorized users can still read and modify resource, but they can't delete the resource.
+- **ReadOnly** - authorized users can read a resource, but they can't delete or update the resource
+
+
+#### Azure Policies 
+Azure Policy helps to enforce organizational standards and to assess compliance at-scale. Through its compliance dashboard, it provides an aggregated view to evaluate the overall state of the environment, with the ability to drill down to the per-resource, per-policy granularity. It also helps to bring your resources to compliance through bulk remediation for existing resources and automatic remediation for new resources.
+
+
+Common use cases for Azure Policy include implementing governance for resource consistency, regulatory compliance, security, cost, and management. Policy definitions for these common use cases are already available in your Azure environment as built-ins to help you get started.
+
+Specifically, some useful governance actions you can enforce with Azure Policy include:
+- Ensuring your team deploys Azure resources only to allowed regions
+- Enforcing the consistent application of taxonomic tags
+- Requiring resources to send diagnostic logs to a Log Analytics workspace
+
+#### Costing in Azure
+- Azure has many ways to tackle costs
+- Cost analysis as part of your subscription
+  - Here you can see the current spending 
+  - See spending per resource
+  - See your forecasts
+  - See you spending history 
+  - See the spending based on tags, resource types etc
+- Azure Advisor 
+
+#### Azure Management Groups 
+If your organization has many Azure subscriptions, you may need a way to efficiently manage access, policies, and compliance for those subscriptions. Management groups provide a governance scope above subscriptions. You organize subscriptions into management groups; the governance conditions you apply cascade by inheritance to all associated subscriptions.
+
+Management groups give you enterprise-grade management at scale no matter what type of subscriptions you might have. However, all subscriptions within a single management group must trust the same Azure Active Directory (Azure AD) tenant.
+
+For example, you can apply policies to a management group that limits the regions available for virtual machine (VM) creation. This policy would be applied to all nested management groups, subscriptions, and resources, and allow VM creation only in authorized regions.
+
+<img src="./assets/management_groups.png" alt="management_groups" width="800"/>
