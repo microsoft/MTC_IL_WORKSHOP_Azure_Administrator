@@ -58,6 +58,10 @@ Workshop for Azure Administrator
       - [Azure Management Groups](#azure-management-groups)
     - [Monitor and Backup](#monitor-and-backup)
       - [Azure Monitor](#azure-monitor)
+        - [Log Analytics Workspace](#log-analytics-workspace)
+        - [Application Insights](#application-insights)
+      - [Azure Backup](#azure-backup)
+        - [Azure Backup for virtual machines](#azure-backup-for-virtual-machines)
 
 
 
@@ -853,6 +857,22 @@ For example, you can apply policies to a management group that limits the region
 ### Monitor and Backup 
 
 #### Azure Monitor
+Azure Monitor helps you maximize the availability and performance of your applications and services. It delivers a comprehensive solution for collecting, analyzing, and acting on telemetry from your cloud and on-premises environments. This information helps you understand how your applications are performing and proactively identify issues that affect them and the resources they depend on.
+
+A few examples of what you can do with Azure Monitor include:
+- Detect and diagnose issues across applications and dependencies with Application Insights.
+- Correlate infrastructure issues with VM insights and Container insights.
+- Drill into your monitoring data with Log Analytics for troubleshooting and deep diagnostics.
+- Support operations at scale with automated actions.
+- Create visualizations with Azure dashboards and workbooks.
+- Collect data from monitored resources by using Azure Monitor Metrics.
+- Investigate change data for routine monitoring or for triaging incidents by using Change Analysis.
+
+Overview:
+
+<img src="./assets/azure_monitor.png" alt="azure_monitor" width="800"/>
+
+
 - Metrics for Azure resources
   - CPU Usage
   - Disk Metricts
@@ -867,3 +887,39 @@ For example, you can apply policies to a management group that limits the region
 - Application Insights
   - Performance 
   - Management system for your live applications
+
+##### Log Analytics Workspace 
+A Log Analytics workspace is a unique environment for log data from Azure Monitor and other Azure services, such as Microsoft Sentinel and Microsoft Defender for Cloud. Each workspace has its own data repository and configuration but might combine data from multiple services. This article provides an overview of concepts related to Log Analytics workspaces and provides links to other documentation for more details on each.
+based on Kusto query language 
+
+<img src="./assets/log_analytics.png" alt="log_analytics" width="800"/>
+
+
+##### Application Insights 
+Application Insights is an extension of Azure Monitor and provides Application Performance Monitoring (also known as “APM”) features. APM tools are useful to monitor applications from development, through test, and into production in the following ways:
+
+1. Proactively understand how an application is performing.
+2. Reactively review application execution data to determine the cause of an incident.
+
+
+#### Azure Backup 
+The Azure Backup service provides simple, secure, and cost-effective solutions to back up your data and recover it from the Microsoft Azure cloud.
+
+What can I back up? 
+- On-premises - Back up files, folders, system state using the Microsoft Azure Recovery Services (MARS) agent. Or use the DPM or Azure Backup Server (MABS) agent to protect on-premises VMs(Hyper-V and VMware) and other on-premises workloads
+- Azure VMs - Back up entire Windows/Linux VMs (using backup extensions) or back up files, folders, and system state using the MARS agent.
+- Azure Managed Disks - Back up Azure Managed Disks
+- Azure Files shares - Back up Azure File shares to a storage account
+- SQL Server in Azure VMs - Back up SQL Server databases running on Azure VMs
+- SAP HANA databases in Azure VMs - Backup SAP HANA databases running on Azure VMs
+- Azure Database for PostgreSQL servers - Back up Azure PostgreSQL databases and retain the backups for up to 10 years
+- Azure Blobs - Overview of operational backup for Azure Blobs
+
+<img src="./assets/azure_backup.png" alt="azure_backup" width="800"/>
+
+How Azure Backup protects from ransomware?  
+Azure Backup helps protect your critical business systems and backup data against a ransomware attack by implementing preventive measures and providing tools that protect your organization from every step that attackers take to infiltrate your systems. It provides security to your backup environment, both when your data is in transit and at rest.
+
+##### Azure Backup for virtual machines 
+- Provides access to data on the VM of something happens to the original VM 
+- The backup gets written to a Recovery Service Vault 
