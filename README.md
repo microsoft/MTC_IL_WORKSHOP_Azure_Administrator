@@ -36,9 +36,11 @@ Workshop for Azure Administrator
         - [Local DNS](#local-dns)
         - [Azure Private DNS](#azure-private-dns)
         - [Azure Public DNS](#azure-public-dns)
+      - [Be Private In Azure Environment](#be-private-in-azure-environment)
+        - [Private endpoint](#private-endpoint)
+        - [Vnet Integration](#vnet-integration)
     - [Manage Azure Storage](#manage-azure-storage)
       - [Azure Storage Accounts](#azure-storage-accounts)
-    - [Monitor and Backup](#monitor-and-backup)
     - [Manage Azure Identities and Governance](#manage-azure-identities-and-governance)
       - [Azure Subscriptions and Management levels of hierarchy](#azure-subscriptions-and-management-levels-of-hierarchy)
       - [Azure Active Directory](#azure-active-directory)
@@ -54,6 +56,8 @@ Workshop for Azure Administrator
       - [Azure Policies](#azure-policies)
       - [Costing in Azure](#costing-in-azure)
       - [Azure Management Groups](#azure-management-groups)
+    - [Monitor and Backup](#monitor-and-backup)
+      - [Azure Monitor](#azure-monitor)
 
 
 
@@ -562,6 +566,64 @@ When creating a DNS zone in Azure DNS:
 - The same zone name can be reused in a different resource group or a different Azure subscription.
 - Where multiple zones share the same name, each instance is assigned different name server addresses. Only one set of addresses can be configured with the domain name registrar.
 
+
+#### Be Private In Azure Environment 
+
+##### Private endpoint
+A private endpoint is a network interface that uses a private IP address from your virtual network. This network interface connects you privately and securely to a service that's powered by Azure Private Link. By enabling a private endpoint, you're bringing the service into your virtual network.
+
+<img src="./assets/private_endpoint.avif" alt="private_endpoint" width="800"/>
+
+The service could be an Azure service such as: 
+- Azure Storage
+- Azure Cosmos DB
+- Azure SQL Database
+- You own service, using Private Link Service
+
+Private endpoints enable connectivity between the customers from the same:
+
+- Virtual network
+- Regionally peered virtual networks
+- Globally peered virtual networks
+- On-premises environments that use VPN or Express Route
+- Services that are powered by Private Link
+
+Protect Azure services against data exfiltration:
+
+<img src="./assets/private_link.avif" alt="private_link" width="800"/>
+
+Get access from on-premises and peered networks:
+
+<img src="./assets/private_link_on_prem.avif" alt="private_link_on_prem" width="800"/>
+
+Simplify the way you consume services on Azure:
+
+<img src="./assets/private_link_simplify.avif" alt="private_link_simplify" width="800"/>
+
+##### Vnet Integration
+Virtual network integration gives your app access to resources in your virtual network, but it doesn't grant inbound private access to your app from the virtual network. Private site access refers to making an app accessible only from a private network, such as from within an Azure virtual network. Virtual network integration is used only to make outbound calls from your app into your virtual network. Refer to private endpoint for inbound private access.
+
+The virtual network integration feature:
+- Requires a supported Basic or Standard, Premium, Premium v2, Premium v3, or Elastic Premium App Service pricing tier.
+- Supports TCP and UDP.
+- Works with App Service apps, function apps and Logic apps.
+
+Virtual network integration supports connecting to a virtual network in the same region. Using virtual network integration enables your app to access:
+- Resources in the virtual network you're integrated with.
+- Resources in virtual networks peered to the virtual network your app is integrated with including global peering connections.
+- Resources across Azure ExpressRoute connections.
+- Service endpoint-secured services.
+- Private endpoint-enabled services.
+
+When you use virtual network integration, you can use the following Azure networking features:
+- Network security groups (NSGs): You can block outbound traffic with an NSG that's placed on your integration subnet. The inbound rules don't apply because you can't use virtual network integration to provide inbound access to your app.
+- Route tables (UDRs): You can place a route table on the integration subnet to send outbound traffic where you want.
+- NAT gateway: You can use NAT gateway to get a dedicated outbound IP and mitigate SNAT port exhaustion.
+
+<img src="./assets/vnet_integration.png" alt="vnet_integration" width="600"/>
+
+--- 
+
 ### Manage Azure Storage
 
 #### Azure Storage Accounts
@@ -625,8 +687,7 @@ Types of storage accounts:
   - AzCopy Tool - AzCopy is a command-line utility that you can use to copy blobs or files to or from a storage account - [Click Here](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10) to get started
 
 
-
-### Monitor and Backup 
+---
 
 ### Manage Azure Identities and Governance
 
@@ -786,3 +847,23 @@ Management groups give you enterprise-grade management at scale no matter what t
 For example, you can apply policies to a management group that limits the regions available for virtual machine (VM) creation. This policy would be applied to all nested management groups, subscriptions, and resources, and allow VM creation only in authorized regions.
 
 <img src="./assets/management_groups.png" alt="management_groups" width="800"/>
+
+--- 
+
+### Monitor and Backup 
+
+#### Azure Monitor
+- Metrics for Azure resources
+  - CPU Usage
+  - Disk Metricts
+  - Network Stats
+  - Alerts
+- Activity Logs 
+  - Control Plane activities 
+  - When a virtual machine is stopped 
+  - When a virtual machine is created 
+- Log Analytics Workspace 
+  - Central Solution for all of your logs 
+- Application Insights
+  - Performance 
+  - Management system for your live applications
