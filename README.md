@@ -437,6 +437,30 @@ A deployment environment is a preconfigured collection of Azure resources deploy
 
 <img src="./assets/azure-deployment-environments.png" alt="azure-deployment-environments" width="1000"/>
 
+
+**Usage scenarios**
+
+Azure Deployment Environments enables usage scenarios for both DevOps teams and developers. Common scenarios include:
+
+- Quickly create on-demand Azure environments by using reusable IaC templates.
+- Create sandbox environments to test your code.
+- Preconfigure various types of environments and seamlessly integrate with your continuous integration and continuous delivery (CI/CD) pipeline.
+- Create preconfigured environments for trainings and demos.
+
+**Developer scenarios**
+- Deploy a preconfigured environment for any stage of the development cycle.
+- Spin up a sandbox environment to explore Azure.
+- Create platform as a service (PaaS) and infrastructure as a service (IaaS) environments quickly and easily by following a few simple steps.
+- Deploy environments right from where they work.
+
+**Dev infra scenarios**
+Azure Deployment Environments helps your dev infra admin apply the right set of policies and settings on various types of environments, control the resource configuration that developers can create, and centrally track environments across projects by doing the following tasks:
+
+- Provide a project-based, curated set of reusable IaC templates.
+- Define specific Azure deployment configurations per project and per environment type.
+- Provide a self-service experience without giving control over subscriptions.
+- Track costs and ensure compliance with enterprise governance policies.
+
 --- 
   
 ### Manage and Configure Virtual Network
